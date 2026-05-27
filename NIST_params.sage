@@ -38,9 +38,9 @@ def wotslen(m, w):
 # Print header
 # ------------------------------------------------
 
-print(f"    n     h     d     h'    a     k     sigsize"
-      "NIST          Loose          This work     "
-      "NIST          Loose          This work")
+print(f"    n     h     d     h'    a     k     m    sigsize         p         Y"
+      "           NIST          Loose      This work           "
+      "NIST          Loose      This work")
 
 
 # ------------------------------------------------
@@ -75,7 +75,7 @@ for n,h,a,k,d in [
     
     # Stop condition for sigma summation
     # when the probability contribution becomes extremely small
-    sigma_stop = F(2)^(-20 * tsec)
+    sigma_stop = F(2)**(-20 * tsec)
 
     # ------------------------------------------------
     # Compute sigma
@@ -114,11 +114,16 @@ for n,h,a,k,d in [
         + floor((h/d + 7)/8)
     )
 
+    p = (2**h) * k * (2**a)
+    p_1 = maxsigs * k
+    c = p/p_1
+    y = p_1 /(1- p_1/(p-c+1))**c
     # ------------------------------------------------
     # Print parameters
     # ------------------------------------------------
 
-    print(f"{int(n):5d} {h:5d} {d:5d} {int(h/d):5d} {a:5d} {k:5d} {int(sigsize):10d}", end="")
+    print(f"{int(n):5d} {h:5d} {d:5d} {int(h/d):5d} {a:5d} {k:5d} {m:5d} ", end="")
+    print(f"{int(sigsize):10d}     {float(log(p,2)):.2f}     {float(log(y,2)):.2f}",end="")
 
     # ------------------------------------------------
     # Classical security 
